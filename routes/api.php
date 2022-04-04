@@ -22,3 +22,6 @@ Route::post('/createUser', [App\Http\Controllers\ApiController::class, 'createUs
 Route::get('/getPointByType', [App\Http\Controllers\ApiController::class, 'getPointByType'])->name('getPointByType');
 Route::post('/createPoint', [App\Http\Controllers\ApiController::class, 'createPoint'])->name('createPoint');
 
+Route::post('/login', [App\Http\Controllers\ApiController::class, 'login'])->name('login');
+
+

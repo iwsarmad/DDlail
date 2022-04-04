@@ -13,6 +13,41 @@ class ApiController extends Controller
 {
     //
 
+
+
+
+
+
+    public function login(Request $request)
+    {
+
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()], 400);
+        }
+        $credentials = request(['username', 'password']);
+
+        $token = auth("api")->attempt($credentials);
+
+        if ($token) {
+
+
+            return response()->json(['token' => $token, 'Status' => 'Ok'], 200);
+
+        }
+        return response()->json(['error' => "Login Failed. Invalid email or password",], 401);
+    }
+
+
+
+
+
+
+
     public  function main_menus()
     {
         $main_menus=MainMenu::select( 'id','name','colorCode','iconLinks')->get();
@@ -80,45 +115,51 @@ class ApiController extends Controller
     {
 
 
-        $validator = Validator::make($request->all(), [
-             'point_type'  => ['required','exists:main_menus,id']
-            , 'point_name' => ['required', 'string', 'max:255']
-            , 'point_lat' => ['required', 'string', 'max:255']
-            , 'point_log' => ['required', 'string', 'max:255']
-            , 'point_specialty' => ['required', 'string', 'max:255']
-            , 'point_open_time' => ['required', 'string', 'max:255']
-            , 'point_close_time' => ['required', 'string', 'max:255']
-            , 'point_phone' => ['required', 'string', 'max:255']
-            , 'point_address' => ['required', 'string', 'max:255']
-        ]);
+        $user = auth("api")->user();
+
+        if ($user == null)
+            return response()->json(['error' => "Unauthorized",], 401);
+        else {
+
+            $validator = Validator::make($request->all(), [
+                 'point_type' => ['required', 'exists:main_menus,id']
+                , 'point_name' => ['required', 'string', 'max:255']
+                , 'point_lat' => ['required', 'string', 'max:255']
+                , 'point_log' => ['required', 'string', 'max:255']
+                , 'point_specialty' => ['required', 'string', 'max:255']
+                , 'point_open_time' => ['required', 'string', 'max:255']
+                , 'point_close_time' => ['required', 'string', 'max:255']
+                , 'point_phone' => ['required', 'string', 'max:255']
+                , 'point_address' => ['required', 'string', 'max:255']
+            ]);
 
 
+            if ($validator->fails()) {
+                return response()->json(['Message' => $validator->errors()->all()], 400);
+            }
 
-        if ($validator->fails()) {
-            return response()->json(['Message' => $validator->errors()->all()], 400);
+            CustomerPoint::create([
+                'point_type' => $request->point_type
+                , 'point_name' => $request->point_name
+                , 'point_lat' => $request->point_lat
+                , 'point_log' => $request->point_log
+                , 'point_specialty' => $request->point_specialty
+                , 'point_open_time' => $request->point_open_time
+                , 'point_close_time' => $request->point_close_time
+                , 'point_img' =>url('/').'/No_image_available.svg.png'
+                , 'point_img_cover' => url('/').'/No_image_available.svg.png'
+                , 'point_phone' => $request->point_phone
+                , 'point_address' => $request->point_address
+                , 'creator_id' => $user->id
+                , 'approval_id' => 0
+                , 'IsActive' => 0
+                , 'IsApprove' => 0
+            ]);
+
+
+            return response(["CustomerPoint" => "creation done"], 200);
+
         }
-
-        CustomerPoint::create([
-             'point_type' =>$request->point_type
-            , 'point_name' =>$request->point_name
-            , 'point_lat' =>$request->point_lat
-            , 'point_log' =>$request->point_log
-            , 'point_specialty' =>$request->point_specialty
-            , 'point_open_time' =>$request->point_open_time
-            , 'point_close_time' =>$request->point_close_time
-            , 'point_img' =>""
-            , 'point_img_cover' =>""
-            , 'point_phone' =>$request->point_phone
-            , 'point_address' =>$request->point_address
-            ,'creator_id'  =>1
-            ,'approval_id'=>0
-            ,'IsActive' =>0
-            ,'IsApprove'=>0
-        ]);
-
-
-        return response(["CustomerPoint"=>"creation done"],200);
-
     }
 
 
