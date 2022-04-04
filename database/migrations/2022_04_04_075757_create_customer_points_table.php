@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('point_img_cover')->nullable();
             $table->string('point_phone')->nullable();
             $table->string('point_address')->nullable();
+            $table->integer('creator_id');
+            $table->integer('approval_id');
+            $table->boolean('IsActive');
+            $table->boolean('IsApprove');
             $table->timestamps();
         });
     }

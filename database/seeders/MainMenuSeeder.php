@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\MainMenu;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MainMenuSeeder extends Seeder
@@ -17,16 +16,39 @@ class MainMenuSeeder extends Seeder
     {
         //
         MainMenu::create([
-             'name'      =>"name"
-            ,'colorCode' =>"#5742f5"
+             'name'      =>"شخصيات عامة"
+            ,'colorCode' =>"#063970"
             ,'iconLinks'=> "https://picsum.photos/250?image=9"
         ]);
 
+
         MainMenu::create([
-            'name'      =>"name"
-            ,'colorCode' =>"#5742f5"
+            'name'      =>"اطباء"
+            ,'colorCode' =>"#1e81b0"
             ,'iconLinks'=> "https://picsum.photos/250?image=9"
         ]);
+
+
+        MainMenu::create([
+            'name'      =>"صيدليات"
+            ,'colorCode' =>"#45b4d0"
+            ,'iconLinks'=> "https://picsum.photos/250?image=9"
+        ]);
+
+
+        MainMenu::create([
+            'name'      =>"محامين"
+            ,'colorCode' =>"#685b4b"
+            ,'iconLinks'=> "https://picsum.photos/250?image=9"
+        ]);
+
+
+        MainMenu::create([
+            'name'      =>"خدمات التوصيل"
+            ,'colorCode' =>"#e8eac5"
+            ,'iconLinks'=> "https://picsum.photos/250?image=9"
+        ]);
+
 
     }
 }

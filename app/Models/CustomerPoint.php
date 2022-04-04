@@ -20,5 +20,9 @@ class CustomerPoint extends Model
         , 'point_img_cover'
         , 'point_phone'
         , 'point_address'
+        ,'creator_id'
+        ,'approval_id'
+        ,'IsActive'
+        ,'IsApprove'
     ];
 }

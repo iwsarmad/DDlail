@@ -19,5 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/main_menus', [App\Http\Controllers\ApiController::class, 'main_menus'])->name('main_menus');
 Route::post('/createUser', [App\Http\Controllers\ApiController::class, 'createUser'])->name('createUser');
 
-
+Route::get('/getPointByType', [App\Http\Controllers\ApiController::class, 'getPointByType'])->name('getPointByType');
+Route::post('/createPoint', [App\Http\Controllers\ApiController::class, 'createPoint'])->name('createPoint');
 
